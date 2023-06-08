@@ -6,8 +6,8 @@ defineProps<{ label: string }>();
 </script>
 
 <template>
-  <div class="t-input">
-    <input v-model="value" type="number" min="1" :name="NAME" placeholder="5" />
+  <div class="t-input column">
+    <input v-model="value" type="number" min="1" :name="NAME" placeholder=" " />
     <label v-if="label" :for="NAME">{{ label }}</label>
   </div>
 </template>
@@ -16,14 +16,12 @@ defineProps<{ label: string }>();
 .t-input {
   $color: var(--vt-c-white-mute);
 
-  display: flex;
-  flex-direction: column;
   position: relative;
 
   %general {
     color: $color;
     transition: all 0.2s ease-out;
-    font-size: 16px;
+    font-size: 1.2rem;
   }
 
   label {
@@ -54,7 +52,7 @@ defineProps<{ label: string }>();
   input:not(:placeholder-shown) + label {
     font-size: 14px;
     color: $border-color;
-    transform: translateY(-24px) scale(0.75);
+    transform: translateY(-30px);
   }
 }
 </style>
