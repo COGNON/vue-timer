@@ -35,7 +35,5 @@ function onTimerCount() {
     <t-btn label="Stop" @click.stop="onTimerEnd()" />
   </div>
 
-  <template v-if="displayActualNumber">
-    <t-timer v-model="displayActualNumber" />
-  </template>
+  <t-timer v-if="displayActualNumber" v-model="displayActualNumber" />
 </template>
