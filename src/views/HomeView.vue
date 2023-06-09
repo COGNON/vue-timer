@@ -1,41 +1,67 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import TInput from '@/components/TInput.vue';
 import TBtn from '@/components/TBtn.vue';
 import TTimer from '@/components/TTimer.vue';
+import TSvgTimer from '@/components/TSvgTimer.vue';
 
 const timeInput = ref(5);
-const displayActualNumber = ref(0); // time in actual seconds
+const timeLimit = computed(() => timeInput.value * 60); // max time in seconds
+const timePassed = ref(0); // time in actual seconds
 
 let timerEnd: number, timerCount: number;
 function onStart() {
   if (!timeInput.value) return;
 
-  displayActualNumber.value = timeInput.value * 60;
-
-  timerEnd = setTimeout(onTimerEnd, timeInput.value * 60 * 1000);
+  timePassed.value = timeLimit.value - 1;
   timerCount = setInterval(onTimerCount, 1000);
+  timerEnd = setTimeout(onTimerEnd, timeLimit.value * 1000);
 }
 
 function onTimerEnd() {
-  displayActualNumber.value = 0;
+  timePassed.value = 0;
   clearTimeout(timerEnd);
   clearInterval(timerCount);
 }
 
 function onTimerCount() {
-  displayActualNumber.value -= 1;
+  timePassed.value -= 1;
 }
 </script>
 
 <template>
-  <div class="t-input-wrapper row items-center t-gutter-x-sm">
-    <t-input v-model.number="timeInput" label="Time" @keyup.enter="onStart()" />
-    <t-btn label="Start" @click.stop="onStart()" />
-    <t-btn label="Stop" @click.stop="onTimerEnd()" />
-  </div>
+  <div class="t-timer">
+    <t-svg-timer :time-limit="timeLimit" :time-passed="timePassed" />
 
-  <template v-if="displayActualNumber">
-    <t-timer v-model="displayActualNumber" />
-  </template>
+    <div class="t-timer-inputs column">
+      <div class="row items-center t-gutter-x-sm">
+        <t-input
+          v-model.number="timeInput"
+          @keyup.enter="onStart()"
+          @update:model-value="timePassed = timeLimit"
+        />
+        <t-btn label="Start" @click.stop="onStart()" />
+        <t-btn label="Stop" @click.stop="onTimerEnd()" />
+      </div>
+      <t-timer v-model="timePassed" />
+    </div>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.t-timer {
+  $size: 500px;
+  height: $size;
+  width: $size;
+  position: relative;
+
+  .t-timer-inputs {
+    position: absolute;
+    height: $size;
+    width: $size;
+    top: 0px;
+    justify-content: center;
+    align-items: center;
+  }
+}
+</style>

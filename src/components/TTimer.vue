@@ -19,11 +19,11 @@ function padStart(str: string, len: number, fill: string): string {
 </script>
 
 <template>
-  <p class="t-timer">{{ displayValue }}</p>
+  <p class="t-timer-text">{{ displayValue }}</p>
 </template>
 
-<style lang="scss" scoped>
-.t-timer {
+<style scoped>
+.t-timer-text {
   font-size: 5rem;
 }
 </style>
