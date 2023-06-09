@@ -2,12 +2,19 @@
 const value = defineModel<number>({ default: 5 });
 const NAME = 't-input';
 
-defineProps<{ label: string }>();
+defineProps<{ label?: string; width?: number | string }>();
 </script>
 
 <template>
   <div class="t-input column">
-    <input v-model="value" type="number" min="1" :name="NAME" placeholder=" " />
+    <input
+      v-model="value"
+      type="number"
+      min="1"
+      :name="NAME"
+      placeholder=" "
+      :style="{ width: `${width || 80}px` }"
+    />
     <label v-if="label" :for="NAME">{{ label }}</label>
   </div>
 </template>
@@ -37,7 +44,7 @@ defineProps<{ label: string }>();
   $border-color: var(--primary);
   input {
     @extend %general;
-    background-color: #222;
+    background-color: transparent;
     border: none;
     border-bottom: 2px solid #7d7d7d;
     padding: 10px;
